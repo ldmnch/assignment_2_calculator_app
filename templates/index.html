@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flask Calculator</title>
+  <script>
+    function updateForm() {
+      const category = document.getElementById("category").value;
+      const algebraFields = document.getElementById("algebraFields");
+      const geometryFields = document.getElementById("geometryFields");
+
+      if (category === "algebra") {
+        algebraFields.style.display = "block";
+        geometryFields.style.display = "none";
+      } else if (category === "geometry") {
+        algebraFields.style.display = "none";
+        geometryFields.style.display = "block";
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Calculator</h1>
+
+  <!-- Single form for both sections -->
+  <form action="{{ url_for('calculate') }}" method="post">
+    <!-- Dropdown to choose between algebra and geometry -->
+    <label for="category">Choose a category:</label>
+    <select id="category" name="category" onchange="updateForm()" required>
+      <option value="algebra">Algebra</option>
+      <option value="geometry">Geometry</option>
+    </select>
+
+    <!-- Algebra section -->
+    <div id="algebraFields" style="display:block;">
+      <input type="text" name="value1" placeholder="Enter the first number" />
+      <input type="text" name="value2" placeholder="Enter the second number" />
+
+      <label for="algebraOperation">Choose an operation:</label>
+      <select name="algebra_operation"> 
+        <option value="addition">Addition</option>
+        <option value="subtraction">Subtraction</option>
+        <option value="multiplication">Multiplication</option>
+        <option value="division">Division</option>
+      </select>
+    </div>
+
+    <!-- Geometry section -->
+    <div id="geometryFields" style="display:none;">
+      <input type="text" name="radius" placeholder="Enter the radius" />
+
+      <label for="geometryOperation">Choose a geometry operation:</label>
+      <select name="geometry_operation"> 
+        <!-- Changed name to geometry_operation -->
+        <option value="area">Area of Circle</option>
+        <option value="circumference">Circumference of Circle</option>
+      </select>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit">Calculate</button>
+  </form>
+
+  <br>
+  {{ printed_result }}
+</body>
+</html>
